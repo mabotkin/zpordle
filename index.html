@@ -6,6 +6,12 @@
 		<h1>
 			Z_p-ordle
 		</h1>
-		<input type="text" id="guess"></input><button type="button">Guess</button>
+		<p id="info"></p>
+		<p id="curguess"></p>
+		<input type="text" id="guess-input"></input><button id="button" type="button" onclick="guess()">Guess</button>
+		<ol id="guesses">
+		</ol>
+		<script src="seedrandom.min.js"></script>
+		<script src="zpordle.js"></script>
 	</body>
 </html>

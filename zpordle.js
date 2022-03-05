@@ -1,0 +1,95 @@
+function norm_power( n , p ) {
+	// returns power of p found in n
+	if ( n == 0 ) {
+		// hopefully shouldnt get here
+		return -1;
+	}
+	var k = 0;
+	while ( n % p == 0 ) {
+		n = n / p;
+		k++;
+	}
+	return k;
+}
+
+function sample_from_distribution( dist ) {
+	// should probably test this
+	var tot = 0;
+	for ( var p in dist ) {
+		tot += dist[ p ];
+	}
+	var r = tot * Math.random();
+	var sum = 0;
+	for ( var p in dist ) {
+		sum += dist[ p ];
+		if ( sum >= r ) {
+			return parseInt( p );
+		}
+	}
+}
+
+function guess() {
+	var g = document.getElementById("guess-input").value;
+	document.getElementById("guess-input").value = "";
+	try {
+		g = parseInt( g );
+	} catch ( err ) {
+		alert( "Not a valid guess." );
+	}
+	var li = document.createElement("li");
+	var val = 0;
+	if ( g != target ) {
+		var pow = norm_power( Math.abs( g - target ) , todays_primes[ guesses ] );
+		if ( pow == 0 ) {
+			val = 1;
+		} else {
+			val = "1/" + Math.pow( todays_primes[ guesses ] , pow );
+		}
+	}
+	li.innerHTML = "Prime: " + todays_primes[ guesses ] + " Guess: " + g + " Valuation: " + val;
+	document.getElementById( "guesses" ).appendChild( li );
+	if ( val == 0 ) {
+		alert( "You win!" );
+		document.getElementById( "button" ).disabled = true;
+	}
+	guesses++;
+	if ( guesses == NUM_GUESSES ) {
+		alert( "You lose." );
+		document.getElementById( "button" ).disabled = true;
+	} else {
+		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
+	}
+}
+
+// constants
+var MAX_NUM = 1000;
+var NUM_PRIMES = 25;
+var NUM_GUESSES = 10;
+//
+var PRIMES = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227];
+var MY_PRIMES = PRIMES.slice( 0 , NUM_PRIMES );
+var DISTRIBUTION = {}
+for ( var i = 0 ; i < MY_PRIMES.length ; i++ ) {
+	var p = MY_PRIMES[ i ];
+	DISTRIBUTION[ p ] = 1.0/p;
+}
+
+// always use pacific time
+var d = new Date();
+var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+var nd = new Date(utc + (3600000*'-8'));
+var today = nd.getFullYear()+'/'+(nd.getMonth()+1)+'/'+nd.getDate(); 
+
+// using https://github.com/davidbau/seedrandom
+Math.seedrandom( today );
+
+var target = Math.round( Math.random() * MAX_NUM );
+var todays_primes = []
+var guesses = 0;
+for ( var i = 0 ; i < NUM_GUESSES ; i++ ) {
+	todays_primes.push( sample_from_distribution( DISTRIBUTION ) );
+}
+todays_primes.sort(function(a, b) { return a - b; });
+
+document.getElementById( "info" ).innerHTML = "Today's Primes: " + todays_primes;
+document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[0];
