@@ -28,14 +28,7 @@ function sample_from_distribution( dist ) {
 	}
 }
 
-function guess() {
-	var g = document.getElementById("guess-input").value;
-	document.getElementById("guess-input").value = "";
-	try {
-		g = parseInt( g );
-	} catch ( err ) {
-		alert( "Not a valid guess." );
-	}
+function guess_helper( g ) {
 	var li = document.createElement("li");
 	var val = 0;
 	if ( g != target ) {
@@ -46,19 +39,43 @@ function guess() {
 			val = "1/" + Math.pow( todays_primes[ guesses ] , pow );
 		}
 	}
-	li.innerHTML = "Prime: " + todays_primes[ guesses ] + " Guess: " + g + " Valuation: " + val;
+	li.innerHTML = "Prime: " + todays_primes[ guesses ] + " Guess: " + g + " Norm: " + val;
 	document.getElementById( "guesses" ).appendChild( li );
 	if ( val == 0 ) {
-		alert( "You win!" );
+		won = true;
+		document.getElementById( "result" ).innerHTML = "You win!";
+		document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
 	}
 	guesses++;
 	if ( guesses == NUM_GUESSES ) {
-		alert( "You lose." );
+		document.getElementById( "result" ).innerHTML = "You lose.";
+		document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
 	} else {
 		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
 	}
+}
+
+function guess() {
+	var g = document.getElementById("guess-input").value;
+	document.getElementById("guess-input").value = "";
+	try {
+		g = parseInt( g );
+	} catch ( err ) {
+		alert( "Not a valid guess." );
+	}
+	guess_helper( g );
+	var arr = JSON.parse( localStorage.todays_guesses );
+	arr.push( g );
+	localStorage.todays_guesses = JSON.stringify( arr );
+}
+
+function share() {
+	var text = "Zpordle " + today + " " + ( won ? guesses : "X" ) + "/" + NUM_GUESSES + "\n";
+	text += "https://mabotkin.github.io/zpordle"
+	navigator.clipboard.writeText( text );
+	alert( "Copied to clipboard." );
 }
 
 // constants
@@ -86,6 +103,7 @@ Math.seedrandom( today );
 var target = Math.round( Math.random() * MAX_NUM );
 var todays_primes = []
 var guesses = 0;
+var won = false;
 for ( var i = 0 ; i < NUM_GUESSES ; i++ ) {
 	todays_primes.push( sample_from_distribution( DISTRIBUTION ) );
 }
@@ -93,3 +111,14 @@ todays_primes.sort(function(a, b) { return a - b; });
 
 document.getElementById( "info" ).innerHTML = "Today's Primes: " + todays_primes;
 document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[0];
+
+// check local storage for todays guesses
+if ( localStorage.getItem( "date" ) != today ) {
+	localStorage.date = today;
+	localStorage.todays_guesses = "[]";
+} else {
+	var arr = JSON.parse( localStorage.todays_guesses );
+	for ( var i = 0 ; i < arr.length ; i++ ) {
+		guess_helper( arr[ i ] );
+	}
+}
