@@ -93,7 +93,7 @@ var MAX_NUM = 1000;
 var NUM_PRIMES = 25;
 var NUM_GUESSES = 10;
 //
-var PRIMES = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227];
+var PRIMES = [2,3,5,7,11,13,17,19,23,29,31,37,41];
 var MY_PRIMES = PRIMES.slice( 0 , NUM_PRIMES );
 var DISTRIBUTION = {}
 for ( var i = 0 ; i < MY_PRIMES.length ; i++ ) {
@@ -105,7 +105,7 @@ for ( var i = 0 ; i < MY_PRIMES.length ; i++ ) {
 var d = new Date();
 var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
 var nd = new Date(utc + (3600000*'-8'));
-var today = nd.getFullYear()+'/'+(nd.getMonth()+1)+'/'+nd.getDate(); 
+var today = nd.getFullYear()+'/'+(nd.getMonth()+1)+'/'+nd.getDate();
 
 // using https://github.com/davidbau/seedrandom
 Math.seedrandom( today );
