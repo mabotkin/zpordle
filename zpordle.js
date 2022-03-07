@@ -31,8 +31,9 @@ function sample_from_distribution( dist ) {
 function guess_helper( g ) {
 	var li = document.createElement("li");
 	var val = 0;
+	var pow = 0;
 	if ( g != target ) {
-		var pow = norm_power( Math.abs( g - target ) , todays_primes[ guesses ] );
+		pow = norm_power( Math.abs( g - target ) , todays_primes[ guesses ] );
 		if ( pow == 0 ) {
 			val = 1;
 		} else {
@@ -40,6 +41,7 @@ function guess_helper( g ) {
 		}
 	}
 	li.innerHTML = "Prime: " + todays_primes[ guesses ] + " Guess: " + g + " Norm: " + val;
+	li.style.backgroundColor = color_scale( Math.min( 1 , pow / 4.0 ) );
 	document.getElementById( "guesses" ).appendChild( li );
 	if ( val == 0 ) {
 		won = true;
@@ -49,7 +51,7 @@ function guess_helper( g ) {
 	}
 	guesses++;
 	if ( guesses == NUM_GUESSES ) {
-		document.getElementById( "result" ).innerHTML = "You lose.";
+		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target;
 		document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
 	} else {
@@ -76,6 +78,14 @@ function share() {
 	text += "https://mabotkin.github.io/zpordle"
 	navigator.clipboard.writeText( text );
 	alert( "Copied to clipboard." );
+}
+
+function color_scale( percent ) {
+	var r = Math.min( ( 1 - percent ) * 512 , 255 );
+	var g = Math.min( percent * 512 , 255 );
+	var b = 0;
+	var h = r * 0x10000 + g * 0x100 + b * 0x1;
+	return '#' + ('000000' + h.toString(16)).slice(-6);
 }
 
 // constants
