@@ -87,8 +87,11 @@ function share() {
 	}
 	text += ( emojis + "\n" );
 	text += "https://mabotkin.github.io/zpordle"
-	navigator.clipboard.writeText( text );
-	alert( "Copied to clipboard." );
+	navigator.clipboard.writeText(text).then(function() {
+		alert("Copied to clipboard.");
+	}, function() {
+		alert("Failed to copy. So go do your manifolds you nerd.")
+	});
 }
 
 function color_scale( percent ) {
