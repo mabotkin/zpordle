@@ -31,7 +31,7 @@ function sample_from_distribution( dist ) {
 function guess_helper( g ) {
 	var li = document.createElement("li");
 	var val = 0;
-	var pow = 0;
+	var pow = -1;
 	if ( g != target ) {
 		pow = norm_power( Math.abs( g - target ) , todays_primes[ guesses ] );
 		if ( pow == 0 ) {
@@ -41,19 +41,22 @@ function guess_helper( g ) {
 		}
 	}
 	li.innerHTML = "Prime: " + todays_primes[ guesses ] + " Guess: " + g + " Norm: " + val;
-	li.style.backgroundColor = color_scale( Math.min( 1 , pow / 4.0 ) );
+	li.style.backgroundColor = ( pow == -1 ) ? color_scale( 1 ) : color_scale( Math.min( 1 , pow / 4.0 ) );
+	share_emojis.push( pow );
 	document.getElementById( "guesses" ).appendChild( li );
 	if ( val == 0 ) {
 		won = true;
 		document.getElementById( "result" ).innerHTML = "You win!";
 		document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
+		document.getElementById( "curguess" ).innerHTML = "";
 	}
 	guesses++;
 	if ( guesses == NUM_GUESSES ) {
-		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target;
+		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target + ".";
 		document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
+		document.getElementById( "curguess" ).innerHTML = "";
 	} else {
 		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
 	}
@@ -75,17 +78,32 @@ function guess() {
 
 function share() {
 	var text = "Zpordle " + today + " " + ( won ? guesses : "X" ) + "/" + NUM_GUESSES + "\n";
+	var emojis = "";
+	for ( var i = 0 ; i < share_emojis.length ; i++ ) {
+		emojis += emoji_lookup( share_emojis[ i ] );
+		if ( i == 5 ) {
+			emojis += "\n";
+		}
+	}
+	text += ( emojis + "\n" );
 	text += "https://mabotkin.github.io/zpordle"
 	navigator.clipboard.writeText( text );
 	alert( "Copied to clipboard." );
 }
 
 function color_scale( percent ) {
-	var r = Math.min( ( 1 - percent ) * 512 , 255 );
-	var g = Math.min( percent * 512 , 255 );
+	var r = Math.round( Math.min( ( 1 - percent ) * 512 , 255 ) );
+	var g = Math.round( Math.min( percent * 512 , 255 ) );
 	var b = 0;
 	var h = r * 0x10000 + g * 0x100 + b * 0x1;
 	return '#' + ('000000' + h.toString(16)).slice(-6);
+}
+
+function emoji_lookup( val ) {
+	if ( val in EMOJI_TABLE ) {
+		return EMOJI_TABLE[ val ];
+	}
+	return EMOJI_TABLE[ 3 ];
 }
 
 // constants
@@ -99,6 +117,14 @@ var DISTRIBUTION = {}
 for ( var i = 0 ; i < MY_PRIMES.length ; i++ ) {
 	var p = MY_PRIMES[ i ];
 	DISTRIBUTION[ p ] = 1.0/p;
+}
+//
+var EMOJI_TABLE = {
+	"-1" : String.fromCodePoint(0x2611),
+	"0"  : String.fromCodePoint(0x1F7E5),
+	"1"  : String.fromCodePoint(0x1F7E7),
+	"2"  : String.fromCodePoint(0x1F7E8),
+	"3"  : String.fromCodePoint(0x1F7E9),
 }
 
 // always use pacific time
@@ -114,6 +140,7 @@ var target = Math.round( Math.random() * MAX_NUM );
 var todays_primes = []
 var guesses = 0;
 var won = false;
+var share_emojis = [];
 for ( var i = 0 ; i < NUM_GUESSES ; i++ ) {
 	todays_primes.push( sample_from_distribution( DISTRIBUTION ) );
 }
