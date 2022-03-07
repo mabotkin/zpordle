@@ -132,3 +132,12 @@ if ( localStorage.getItem( "date" ) != today ) {
 		guess_helper( arr[ i ] );
 	}
 }
+
+// Shamelessly stolen from w3schools like a proper programmer.
+var input = document.getElementById("guess-input");
+input.addEventListener("keyup", function(event) {
+	if (event.keyCode === 13) {
+   event.preventDefault();
+   document.getElementById("button").click();
+  }
+});
