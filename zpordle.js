@@ -77,7 +77,9 @@ function guess() {
 }
 
 function share() {
-	var text = "Zpordle " + today + " " + ( won ? guesses : "X" ) + "/" + NUM_GUESSES + "\n";
+	// need to make the display date a separate variable because 'today' is used for seeding the random number generation.
+	var today_but_not_weird = (nd.getMonth()+1)+'/'+nd.getDate()+'/'+nd.getFullYear();
+	var text = "Zpordle " + today_but_not_weird + " " + ( won ? guesses : "X" ) + "/" + NUM_GUESSES + "\n";
 	var emojis = "";
 	for ( var i = 0 ; i < share_emojis.length ; i++ ) {
 		emojis += emoji_lookup( share_emojis[ i ] );
