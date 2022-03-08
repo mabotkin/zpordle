@@ -41,7 +41,7 @@ function guess_helper( g ) {
 		}
 	}
 	li.innerHTML = "Prime: " + todays_primes[ guesses ] + " Guess: " + g + " Norm: " + val;
-	li.style.backgroundColor = ( pow == -1 ) ? color_scale( 1 ) : color_scale( Math.min( 1 , pow / 4.0 ) );
+	li.style.backgroundColor = get_color( pow );
 	share_emojis.push( pow );
 	document.getElementById( "guesses" ).appendChild( li );
 	if ( val == 0 ) {
@@ -92,6 +92,21 @@ function share() {
 	}, function() {
 		alert("Failed to copy. So go do your manifolds you nerd.")
 	});
+}
+
+function get_color( pow ) {
+	switch ( pow ) {
+		case -1:
+			return '#57b5ff';
+		case 0:
+			return '#ff0000';
+		case 1:
+			return '#ff8000';
+		case 2:
+			return '#ffff00';
+		default:
+			return '#80ff00';
+	}
 }
 
 function color_scale( percent ) {
