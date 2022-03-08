@@ -52,7 +52,7 @@ function guess_helper( g ) {
 		document.getElementById( "curguess" ).innerHTML = "";
 	}
 	guesses++;
-	if ( guesses == NUM_GUESSES ) {
+	if ( won == false && guesses == NUM_GUESSES ) {
 		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target + ".";
 		document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
