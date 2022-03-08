@@ -3,24 +3,34 @@
 		<title>Z_p-ordle</title>
 	</head>
 	<body>
-		<h1>
-			Z_p-ordle
-		</h1>
-		<p id="result"></p><button id="share" type="button" style="display: none" onclick="share()">Share</button>
-		<p id="info"></p>
-		<p id="curguess"></p>
-		<input type="text" id="guess-input"></input><button id="button" type="button" onclick="guess()">Guess</button>
-		<ol id="guesses">
-		</ol>
-		<script src="seedrandom.min.js"></script>
-		<script src="zpordle.js"></script>
-		<h2>Rules</h2>
-		<p>
-			Each day, a random integer will be picked between 0 and 1000.  You will then have 10 guesses to guess the number.  Each guess will be associated with a prime number, given in increasing order.  For a guess associated with prime p, the game will tell you the p-adic distance between your guess and the target number.  Good luck!
-		</p>
-		<h3>p-adic Distance</h3>
-		<p>
-			For a fixed prime p, define the p-adic norm of an integer x as p^-k, where x = np^k, with n not divisible by p.  For example, for p = 3, the p-adic norm of 6 is 1/3, the p-adic norm of 9 is 1/9, and the p-adic norm of 11 is 1.  The p-adic distance between two integers is the p-adic norm of the difference.
-		</p>
+		<div style="text-align: center;">
+				<img src="https://quicklatex.com/cache3/e7/ql_095159b8d2f83ebcf907ec984eb78ce7_l3.png" alt ="Z_p-ordle">
+			<p id="result"></p><button id="share" type="button" style="display: none" onclick="share()">Share</button>
+			<p id="info"></p>
+			<p id="curguess"></p>
+			<div style="max-width: 300px; margin: auto;">
+				<div style="margin-left: 10px;">
+					<input type="text" id="guess-input"></input><button id="button" type="button" onclick="guess()">Guess</button>
+				</div>
+				<ol id="guesses">
+			</div>
+			</ol>
+			<script src="seedrandom.min.js"></script>
+			<script src="zpordle.js"></script>
+			<div style="max-width: 50%; margin: auto;">
+				<h2>Rules</h2>
+				<p>
+					Each day, a random integer will be picked between 0 and 1000.  You will then have 10 guesses to guess the number.  Each guess will be associated with a prime number, given in increasing order.  For a guess associated with prime p, the game will tell you the p-adic distance between your guess and the target number.  Good luck!
+				</p>
+				<h3>
+					<a href="https://en.wikipedia.org/wiki/P-adic_order#p-adic_absolute_value">
+						p-adic Distance
+					</a>
+				</h3>
+				<p>
+					For a fixed prime p, define the p-adic norm of an integer x as p^-k, where x = np^k, with n not divisible by p.  For example, for p = 3, the p-adic norm of 6 is 1/3, the p-adic norm of 9 is 1/9, and the p-adic norm of 11 is 1.  The p-adic distance between two integers is the p-adic norm of the difference.
+				</p>
+			</div>
+		</div>
 	</body>
 </html>
