@@ -166,7 +166,7 @@ for ( var i = 0 ; i < NUM_GUESSES ; i++ ) {
 }
 todays_primes.sort(function(a, b) { return a - b; });
 
-document.getElementById( "info" ).innerHTML = "Today's Primes: " + todays_primes;
+document.getElementById( "info" ).innerHTML = "Today's Primes: " + todays_primes.join( ", " );
 document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[0];
 
 // check local storage for todays guesses
