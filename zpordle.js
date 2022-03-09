@@ -44,14 +44,15 @@ function guess_helper( g ) {
 	li.style.backgroundColor = get_color( pow );
 	share_emojis.push( pow );
 	document.getElementById( "guesses" ).appendChild( li );
+	guesses++;
 	if ( val == 0 ) {
 		won = true;
 		document.getElementById( "result" ).innerHTML = "You win!";
 		document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
 		document.getElementById( "curguess" ).innerHTML = "";
+		return;
 	}
-	guesses++;
 	if ( won == false && guesses == NUM_GUESSES ) {
 		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target + ".";
 		document.getElementById( "share" ).style.display = "";
