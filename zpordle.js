@@ -44,24 +44,21 @@ function guess_helper( g ) {
 	li.style.backgroundColor = get_color( pow );
 	share_emojis.push( pow );
 	document.getElementById( "guesses" ).appendChild( li );
-	if ( val == 0 ) {
-		won = true;
-		document.getElementById( "result" ).innerHTML = "You win!" + SHARE_BUTTON;
-		// document.getElementById( "share" ).style.display = "";
-		document.getElementById( "button" ).disabled = true;
-		document.getElementById( "curguess" ).innerHTML = "";
-		$('#result').modal('show');
-	}
 	guesses++;
-	if ( won == false && guesses == NUM_GUESSES ) {
-		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target + "." + SHARE_BUTTON;
-		// document.getElementById( "share" ).style.display = "";
-		document.getElementById( "button" ).disabled = true;
-		document.getElementById( "curguess" ).innerHTML = "";
-		$('#result').modal('show');
-	} else {
+	if ( val != 0 && guesses != NUM_GUESSES) {
 		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
+		return;
 	}
+
+	// Game is over (either guess was correct, or we're out of guesses).
+	won = (val == 0);
+	var result_string = val == 0
+		? "You win!"
+		: "You lose. Today's number was " + target + ".";
+	document.getElementById( "result" ).innerHTML = result_string;
+	document.getElementById( "share" ).style.display = "";
+	document.getElementById( "button" ).disabled = true;
+	document.getElementById( "curguess" ).innerHTML = "";
 }
 
 function guess() {
@@ -85,7 +82,7 @@ function share() {
 	var emojis = "";
 	for ( var i = 0 ; i < share_emojis.length ; i++ ) {
 		emojis += emoji_lookup( share_emojis[ i ] );
-		if ( i % 5 == 4 ) {
+		if ( ( i % 5 == 4 ) && ( i != NUM_GUESSES - 1 ) ) {
 			emojis += "\n";
 		}
 	}
