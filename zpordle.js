@@ -45,7 +45,7 @@ function guess_helper( g ) {
 	share_emojis.push( pow );
 	document.getElementById( "guesses" ).appendChild( li );
 	guesses++;
-	if ( val != 0 && guesses != NUM_GUESSES) {
+	if (val != 0 && guesses != NUM_GUESSES) {
 		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
 		return;
 	}
@@ -55,7 +55,7 @@ function guess_helper( g ) {
 	var result_string = val == 0
 		? "You win!"
 		: "You lose. Today's number was " + target + ".";
-	result_string += SHARE_BUTTON;
+	result_string += "<br/>" + SHARE_BUTTON;
 	document.getElementById( "result" ).innerHTML = result_string;
 	document.getElementById( "share" ).style.display = "";
 	document.getElementById( "button" ).disabled = true;
