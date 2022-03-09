@@ -55,10 +55,12 @@ function guess_helper( g ) {
 	var result_string = val == 0
 		? "You win!"
 		: "You lose. Today's number was " + target + ".";
+	result_string += SHARE_BUTTON;
 	document.getElementById( "result" ).innerHTML = result_string;
 	document.getElementById( "share" ).style.display = "";
 	document.getElementById( "button" ).disabled = true;
 	document.getElementById( "curguess" ).innerHTML = "";
+	$('#result').modal('show');
 }
 
 function guess() {
