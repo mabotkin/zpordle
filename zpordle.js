@@ -84,7 +84,7 @@ function share() {
 	var emojis = "";
 	for ( var i = 0 ; i < share_emojis.length ; i++ ) {
 		emojis += emoji_lookup( share_emojis[ i ] );
-		if ( i % 5 == 4 ) {
+		if ( ( i % 5 == 4 ) && ( i != NUM_GUESSES - 1 ) ) {
 			emojis += "\n";
 		}
 	}
