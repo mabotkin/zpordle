@@ -6,7 +6,8 @@
 	<body>
 		<div style="text-align: center;">
 				<img src="logo.png" alt ="Z_p-ordle">
-			<p id="result"></p><button id="share" type="button" style="display: none" onclick="share()">Share</button>
+			<!-- <p id="result"></p><button id="share" type="button" style="display: none" onclick="share()">Share</button> -->
+			<p id="result" class="modal"><button id="share" type="button" onclick="share()">Share</button></p>
 			<p id="info"></p>
 			<p id="curguess"></p>
 			<div style="max-width: 300px; margin: auto;">
@@ -30,6 +31,12 @@
 					For a fixed prime p, define the p-adic norm of an integer x as p^-k, where x = np^k, with n not divisible by p.  For example, for p = 3, the p-adic norm of 6 is 1/3, the p-adic norm of 9 is 1/9, and the p-adic norm of 11 is 1.  The p-adic distance between two integers is the p-adic norm of the difference.
 				</p>
 			</div>
+			<!-- Remember to include jQuery :) -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+
+			<!-- jQuery Modal -->
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 			<script src="seedrandom.min.js"></script>
 			<script src="zpordle.js"></script>
 		</div>

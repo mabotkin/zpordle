@@ -46,17 +46,19 @@ function guess_helper( g ) {
 	document.getElementById( "guesses" ).appendChild( li );
 	if ( val == 0 ) {
 		won = true;
-		document.getElementById( "result" ).innerHTML = "You win!";
-		document.getElementById( "share" ).style.display = "";
+		document.getElementById( "result" ).innerHTML = "You win!" + SHARE_BUTTON;
+		// document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
 		document.getElementById( "curguess" ).innerHTML = "";
+		$('#result').modal('show');
 	}
 	guesses++;
 	if ( won == false && guesses == NUM_GUESSES ) {
-		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target + ".";
-		document.getElementById( "share" ).style.display = "";
+		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target + "." + SHARE_BUTTON;
+		// document.getElementById( "share" ).style.display = "";
 		document.getElementById( "button" ).disabled = true;
 		document.getElementById( "curguess" ).innerHTML = "";
+		$('#result').modal('show');
 	} else {
 		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
 	}
@@ -149,6 +151,7 @@ var EMOJI_TABLE = {
 	"2"  : String.fromCodePoint(0x1F7E8),
 	"3"  : String.fromCodePoint(0x1F7E9),
 }
+var SHARE_BUTTON = "<button id=\"share\" type=\"button\" onclick=\"share()\">Share</button>";
 
 // always use pacific time
 var d = new Date();
