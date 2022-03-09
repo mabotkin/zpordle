@@ -45,22 +45,20 @@ function guess_helper( g ) {
 	share_emojis.push( pow );
 	document.getElementById( "guesses" ).appendChild( li );
 	guesses++;
-	if ( val == 0 ) {
-		won = true;
-		document.getElementById( "result" ).innerHTML = "You win!";
-		document.getElementById( "share" ).style.display = "";
-		document.getElementById( "button" ).disabled = true;
-		document.getElementById( "curguess" ).innerHTML = "";
+	if ( val != 0 && guesses != NUM_GUESSES) {
+		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
 		return;
 	}
-	if ( won == false && guesses == NUM_GUESSES ) {
-		document.getElementById( "result" ).innerHTML = "You lose.  Today's number was " + target + ".";
-		document.getElementById( "share" ).style.display = "";
-		document.getElementById( "button" ).disabled = true;
-		document.getElementById( "curguess" ).innerHTML = "";
-	} else {
-		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
-	}
+
+	// Game is over (either guess was correct, or we're out of guesses).
+	won = (val == 0);
+	var result_string = val == 0
+		? "You win!"
+		: "You lose. Today's number was " + target + ".";
+	document.getElementById( "result" ).innerHTML = result_string;
+	document.getElementById( "share" ).style.display = "";
+	document.getElementById( "button" ).disabled = true;
+	document.getElementById( "curguess" ).innerHTML = "";
 }
 
 function guess() {
