@@ -49,18 +49,53 @@ function guess_helper( g ) {
 		document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[ guesses ];
 		return;
 	}
+	won = (val == 0);
+
+	// update statistics
+	if ( localStorage.getItem( "last-played-date" ) != today ) {
+		// update guess statistics
+		var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
+		statistics[ won ? guesses : 0 ]++;
+		localStorage.setItem( "statistics" , JSON.stringify( statistics ) );
+		// update streak statistics
+		var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
+		if ( won ) {
+			streaks[ "current-streak" ]++;
+			streaks[ "max-streak" ] = Math.max( streaks[ "current-streak" ] , streaks[ "max-streak" ] );
+		} else {
+			streaks[ "current-streak" ] = 0;
+		}
+		localStorage.setItem( "streaks" , JSON.stringify( streaks ) );
+		//
+		localStorage.setItem( "last-played-date" , today )
+	}
 
 	// Game is over (either guess was correct, or we're out of guesses).
-	won = (val == 0);
 	var result_string = val == 0
 		? "You win!"
 		: "You lose. Today's number was " + target + ".";
+	result_string += "<div id=\"stats\" style=\"display: none\"></div>"
 	result_string += "<br/>" + SHARE_BUTTON;
 	document.getElementById( "result" ).innerHTML = result_string;
 	document.getElementById( "share" ).style.display = "";
 	document.getElementById( "button" ).disabled = true;
 	document.getElementById( "curguess" ).innerHTML = "";
+
+	loadStats();
+
 	$('#result').modal('show');
+}
+
+function loadStats() {
+	var elt = document.getElementById( "stats" );
+	var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
+	var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
+	//
+	var stats_string = "This will hopefully look better soon.<br>"
+	stats_string += "Statistics: " + statistics + "<br>";
+	stats_string += "Streak: " + JSON.stringify( streaks );
+	//
+	elt.innerHTML = stats_string;
 }
 
 function guess() {
@@ -166,6 +201,7 @@ var todays_primes = []
 var guesses = 0;
 var won = false;
 var share_emojis = [];
+
 for ( var i = 0 ; i < NUM_GUESSES ; i++ ) {
 	todays_primes.push( sample_from_distribution( DISTRIBUTION ) );
 }
@@ -184,7 +220,25 @@ if ( localStorage.getItem( "date" ) != today ) {
 		guess_helper( arr[ i ] );
 	}
 }
-
+if ( localStorage.getItem( "statistics" ) === null ) {
+	localStorage.setItem( "statistics" , JSON.stringify( new Array( 11 ).fill( 0 ) ) );
+}
+if ( localStorage.getItem( "streaks" ) === null ) {
+	localStorage.setItem( "streaks" , JSON.stringify( { "current-streak" : 0 , "max-streak" : 0 } ) );
+} else {
+	// check if we missed a day
+		var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
+		try {
+			var last_played = localStorage.getItem( "last-played-date" );
+			if ( Date.parse( today ) - Date.parse( last_played ) > 86400000 ) {
+				streaks[ "current-streak" ] = 0;
+			}
+		} catch {
+			// if last-date-played does not exist
+			streaks[ "current-streak" ] = 0;
+		}
+		localStorage.setItem( "streaks" , JSON.stringify( streaks ) );
+}
 // Shamelessly stolen from w3schools like a proper programmer.
 var input = document.getElementById("guess-input");
 input.addEventListener("keyup", function(event) {
