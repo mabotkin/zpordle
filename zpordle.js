@@ -55,9 +55,11 @@ function guess_helper( g ) {
 	if ( localStorage.getItem( "last-played-date" ) != today ) {
 		// update guess statistics
 		var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
-		statistics[ won ? guesses : 0 ]++;
-		localStorage.setItem( "statistics" , JSON.stringify( statistics ) );
-		// update streak statistics
+		if (!statistics) {
+		}
+			statistics[ won ? guesses : 0 ]++;
+			localStorage.setItem( "statistics" , JSON.stringify( statistics ) );
+			// update streak statistics
 		var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
 		if ( won ) {
 			streaks[ "current-streak" ]++;
@@ -210,6 +212,14 @@ todays_primes.sort(function(a, b) { return a - b; });
 document.getElementById( "info" ).innerHTML = "Today's Primes: " + todays_primes.join( ", " );
 document.getElementById( "curguess" ).innerHTML = "Current Prime: " + todays_primes[0];
 
+// initialize statistics/streaks if we haven't yet
+if ( localStorage.getItem( "statistics" ) === null ) {
+	localStorage.setItem( "statistics" , JSON.stringify( new Array( 11 ).fill( 0 ) ) );
+}
+if ( localStorage.getItem( "streaks" ) === null ) {
+	localStorage.setItem( "streaks" , JSON.stringify( { "current-streak" : 0 , "max-streak" : 0 } ) );
+}
+
 // check local storage for todays guesses
 if ( localStorage.getItem( "date" ) != today ) {
 	localStorage.date = today;
@@ -220,25 +230,18 @@ if ( localStorage.getItem( "date" ) != today ) {
 		guess_helper( arr[ i ] );
 	}
 }
-if ( localStorage.getItem( "statistics" ) === null ) {
-	localStorage.setItem( "statistics" , JSON.stringify( new Array( 11 ).fill( 0 ) ) );
+// check if we missed a day
+var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
+try {
+	var last_played = localStorage.getItem( "last-played-date" );
+	if ( Date.parse( today ) - Date.parse( last_played ) > 86400000 ) {
+		streaks[ "current-streak" ] = 0;
+	}
+} catch {
+	// if last-date-played does not exist
+	streaks[ "current-streak" ] = 0;
 }
-if ( localStorage.getItem( "streaks" ) === null ) {
-	localStorage.setItem( "streaks" , JSON.stringify( { "current-streak" : 0 , "max-streak" : 0 } ) );
-} else {
-	// check if we missed a day
-		var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
-		try {
-			var last_played = localStorage.getItem( "last-played-date" );
-			if ( Date.parse( today ) - Date.parse( last_played ) > 86400000 ) {
-				streaks[ "current-streak" ] = 0;
-			}
-		} catch {
-			// if last-date-played does not exist
-			streaks[ "current-streak" ] = 0;
-		}
-		localStorage.setItem( "streaks" , JSON.stringify( streaks ) );
-}
+localStorage.setItem( "streaks" , JSON.stringify( streaks ) );
 // Shamelessly stolen from w3schools like a proper programmer.
 var input = document.getElementById("guess-input");
 input.addEventListener("keyup", function(event) {
