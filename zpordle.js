@@ -76,7 +76,8 @@ function guess_helper( g ) {
 	var result_string = val == 0
 		? "You win!"
 		: "You lose. Today's number was " + target + ".";
-	result_string += "<div id=\"stats\" style=\"display: none\"></div>"
+	result_string += "<canvas id=\"stats\" style=\"height: 300px; width: 100%;\"></canvas>";
+	result_string += "<div id=\"streak\" style=\"display: none\"></div>";
 	result_string += "<br/>" + SHARE_BUTTON;
 	document.getElementById( "result" ).innerHTML = result_string;
 	document.getElementById( "share" ).style.display = "";
@@ -89,15 +90,64 @@ function guess_helper( g ) {
 }
 
 function loadStats() {
-	var elt = document.getElementById( "stats" );
 	var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
+	console.log("statistics: " + statistics);
+	//
+	const labels = [1,2,3,4,5,6,7,8,9];
+const data = {
+  labels: labels,
+	datasets: [{
+        barPercentage: .9,
+        minBarLength: 20,
+        data: statistics.slice(1,-1)
+    }]};
+	Chart.register(ChartDataLabels);
+	const config = {
+		plugins: [ChartDataLabels],
+		type: 'bar',
+		data: data,
+		options: {
+			indexAxis: "y",
+			scales: {
+				x: {
+					display: false
+				}
+			},
+			plugins: {
+				legend: {
+					display: false
+				},
+
+				title: {
+					text: "guess distribution",
+					display: true
+				},
+				tooltip: {
+					enabled: false
+				},
+				datalabels: {
+					anchor: "end",
+					align: "left",
+					// only display label if > 0
+					display: function(context) {
+						var index = context.dataIndex;
+						var value = context.dataset.data[index];
+						return value > 0;
+					}
+				}
+			},
+		}
+	};
+
+	const myChart = new Chart(document.getElementById("stats"), config);
+}
+
+function loadStreak() {
+	var elt = document.getElementById( "streak" );
 	var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
-	//
-	var stats_string = "This will hopefully look better soon.<br>"
-	stats_string += "Statistics: " + statistics + "<br>";
-	stats_string += "Streak: " + JSON.stringify( streaks );
-	//
-	elt.innerHTML = stats_string;
+	var streak_string = "This will hopefully look better soon.<br>";
+	streak_string += "Streak: " + JSON.stringify( streaks );
+	elt.innerHTML = streak_string;
 }
 
 function guess() {
