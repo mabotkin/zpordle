@@ -40,7 +40,7 @@ function guess_helper(g) {
       val = "1/" + Math.pow(todays_primes[guesses], pow);
     }
   }
-  li.innerHTML = "Prime: " + todays_primes[guesses] + " Guess: " + g + " Norm: " + val;
+  li.innerHTML = "<span style=\"color: black\">Prime: " + todays_primes[guesses] + " Guess: " + g + " Norm: " + val + "</span>";
   li.style.backgroundColor = get_color(pow);
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
