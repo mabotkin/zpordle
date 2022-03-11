@@ -74,16 +74,21 @@ function guess_helper(g) {
   var result_string = val == 0 ?
     "You win!" :
     "You lose. Today's number was " + target + ".";
-  result_string += "<canvas id=\"stats\" style=\"height: 300px; width: 100%;\"></canvas>";
-  result_string += "<div id=\"streak\" style=\"display: none\"></div>";
-  result_string += "<br/>" + SHARE_BUTTON;
-  document.getElementById("result").innerHTML = result_string;
-  document.getElementById("share").style.display = "";
   document.getElementById("button").disabled = true;
   document.getElementById("curguess").innerHTML = "";
 
-  loadStats();
+	displayStats(result_string, /* includeShare= */true);
+}
 
+function displayStats(result_string, includeShare) {
+  result_string += "<canvas id=\"stats\" style=\"height: 300px; width: 100%;\"></canvas>";
+  result_string += "<div id=\"streak\" style=\"display: none\"></div>";
+  if (includeShare) {
+    result_string += "<br/>" + SHARE_BUTTON;
+  }
+  document.getElementById("result").innerHTML = result_string;
+
+	loadStats();
   $('#result').modal('show');
 }
 
