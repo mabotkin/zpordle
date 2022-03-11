@@ -138,7 +138,7 @@ function loadStats() {
         },
 
         title: {
-          text: "guess distribution",
+          text: "Guess Distribution",
           display: true
         },
         tooltip: {
@@ -174,8 +174,10 @@ function guess() {
   document.getElementById("guess-input").value = "";
   try {
     g = parseInt(g);
+	if ( g < 0 || g > MAX_NUM ) { throw err; }
   } catch (err) {
     alert("Not a valid guess.");
+	return;
   }
   guess_helper(g);
   var arr = JSON.parse(localStorage.todays_guesses);
