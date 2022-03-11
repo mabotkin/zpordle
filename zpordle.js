@@ -86,11 +86,23 @@ function stats() {
 
 function displayStats(result_string, includeShare) {
   result_string += "<canvas id=\"stats\" style=\"height: 300px; width: 100%;\"></canvas>";
-  result_string += "<div id=\"streak\" style=\"display: none\"></div>";
+  result_string += "<div id=\"streak\" style=\"display: flex;\"></div>";
   if (includeShare) {
     result_string += "<br/>" + SHARE_BUTTON;
   }
   document.getElementById("result").innerHTML = result_string;
+
+  var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
+  var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
+  var games_played = statistics.reduce( ( a , b ) => a + b )
+  var wins = statistics.slice( 1 ).reduce( ( a , b ) => a + b )
+  var winpercent = ( games_played == 0 ) ? "N/A" : Math.floor( 100 * games_played / wins ) + "%" ;
+  var streak_string = "";
+  streak_string += "<div id=\"played\" style=\"flex: 1;\">Played<div style=\"font-size: 2em\">" + games_played + "</div></div>";
+  streak_string += "<div id=\"winpercent\" style=\"flex: 1\">Win Percentage<div style=\"font-size: 2em\">" + winpercent + "</div></div>";
+  streak_string += "<div id=\"curstreak\" style=\"flex: 1\">Current Streak<div style=\"font-size: 2em\">" + streaks[ "current-streak" ] + "</div></div>";
+  streak_string += "<div id=\"maxstreak\" style=\"flex: 1\">Max Streak<div style=\"font-size: 2em\">" + streaks[ "current-streak" ] + "</div></div>";
+  document.getElementById("streak").innerHTML = streak_string;
 
 	loadStats();
   $('#result').modal('show');
