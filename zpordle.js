@@ -55,10 +55,8 @@ function guess_helper( g ) {
 	if ( localStorage.getItem( "last-played-date" ) != today ) {
 		// update guess statistics
 		var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
-		if (!statistics) {
-		}
-			statistics[ won ? guesses : 0 ]++;
-			localStorage.setItem( "statistics" , JSON.stringify( statistics ) );
+		statistics[ won ? guesses : 0 ]++;
+		localStorage.setItem( "statistics" , JSON.stringify( statistics ) );
 			// update streak statistics
 		var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
 		if ( won ) {
@@ -92,13 +90,13 @@ function guess_helper( g ) {
 function loadStats() {
 	var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
 	//
-const labels = [1,2,3,4,5,6,7,8,9];
+const labels = [1,2,3,4,5,6,7,8,9,10];
 const data = {
   labels: labels,
 	datasets: [{
         barPercentage: .9,
         minBarLength: 20,
-        data: statistics.slice(1,-1)
+        data: statistics.slice(1)
     }]};
 	Chart.register(ChartDataLabels);
 	const config = {
