@@ -96,7 +96,7 @@ function displayStats(result_string, includeShare) {
   var streaks = JSON.parse( localStorage.getItem( "streaks" ) );
   var games_played = statistics.reduce( ( a , b ) => a + b )
   var wins = statistics.slice( 1 ).reduce( ( a , b ) => a + b )
-  var winpercent = ( games_played == 0 ) ? "N/A" : Math.floor( 100 * games_played / wins ) + "%" ;
+  var winpercent = ( games_played == 0 ) ? "N/A" : Math.floor( 100 * wins / games_played ) + "%" ;
   var streak_string = "";
   streak_string += "<div id=\"played\" style=\"flex: 1;\">Played<div style=\"font-size: 2em\">" + games_played + "</div></div>";
   streak_string += "<div id=\"winpercent\" style=\"flex: 1\">Win Percentage<div style=\"font-size: 2em\">" + winpercent + "</div></div>";
