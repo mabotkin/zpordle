@@ -91,9 +91,8 @@ function guess_helper( g ) {
 
 function loadStats() {
 	var statistics = JSON.parse( localStorage.getItem( "statistics" ) );
-	console.log("statistics: " + statistics);
 	//
-	const labels = [1,2,3,4,5,6,7,8,9];
+const labels = [1,2,3,4,5,6,7,8,9];
 const data = {
   labels: labels,
 	datasets: [{
