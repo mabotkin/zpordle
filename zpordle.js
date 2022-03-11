@@ -80,6 +80,10 @@ function guess_helper(g) {
 	displayStats(result_string, /* includeShare= */true);
 }
 
+function stats() {
+	displayStats("", false);
+}
+
 function displayStats(result_string, includeShare) {
   result_string += "<canvas id=\"stats\" style=\"height: 300px; width: 100%;\"></canvas>";
   result_string += "<div id=\"streak\" style=\"display: none\"></div>";
