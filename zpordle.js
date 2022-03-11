@@ -235,6 +235,19 @@ function emoji_lookup(val) {
   return EMOJI_TABLE[3];
 }
 
+function rerender() {
+	var body = document.getElementsByTagName( "body" )[0];
+	var darkmode = localStorage.getItem( "dark-mode" ) == "true" ;
+	body.style.backgroundColor = ( darkmode ? "black" : "" );
+	body.style.color = ( darkmode ? "white" : "" );
+	document.getElementById( "logo" ).src = ( darkmode ? "logo-white.png" : "logo.png" );
+}
+
+function updateDarkMode() {
+	localStorage.setItem( "dark-mode" , document.getElementById( "darkmode-checkbox" ).checked );
+	rerender();
+}
+
 // constants
 var MAX_NUM = 1000;
 var NUM_PRIMES = 10;
@@ -294,6 +307,12 @@ if (localStorage.getItem("streaks") === null) {
     "current-streak": 0,
     "max-streak": 0
   }));
+}
+if (localStorage.getItem("dark-mode") === null) {
+	localStorage.setItem("dark-mode", "false" );
+} else {
+	document.getElementById( "darkmode-checkbox" ).checked = ( localStorage.getItem( "dark-mode" ) == "true" );
+	rerender();
 }
 
 // check local storage for todays guesses
