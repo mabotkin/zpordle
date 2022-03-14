@@ -275,8 +275,10 @@ var SHARE_BUTTON = "<button id=\"share\" type=\"button\" onclick=\"share()\">Sha
 
 // always use pacific time
 var d = new Date();
-var utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-var nd = new Date(utc + (3600000 * '-8'));
+var pstDate = d.toLocaleString("en-us", {
+	timeZone: "America/Los_Angeles"
+});
+var nd = new Date(pstDate);
 var today = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate();
 
 // using https://github.com/davidbau/seedrandom
