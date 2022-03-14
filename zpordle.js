@@ -86,7 +86,7 @@ function stats() {
 
 function displayStats(result_string, includeShare) {
   result_string += "<canvas id=\"stats\" style=\"height: 300px; width: 100%;\"></canvas>";
-  result_string += "<div id=\"streak\" style=\"display: flex;\"></div>";
+  result_string += "<div id=\"streak\" style=\"display: flex; color: black;\"></div>";
   if (includeShare) {
     result_string += "<br/>" + SHARE_BUTTON;
   }
