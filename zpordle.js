@@ -174,6 +174,7 @@ function guess() {
   document.getElementById("guess-input").value = "";
   try {
     g = parseInt(g);
+	if ( isNaN( g ) ) { throw err; }
 	if ( g < 0 || g > MAX_NUM ) { throw err; }
   } catch (err) {
     alert("Not a valid guess.");
