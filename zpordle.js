@@ -45,7 +45,7 @@ function guess_helper(g) {
   share_emojis.push(pow);
   document.getElementById("guesses").appendChild(li);
   guesses++;
-  if (val != 0 && guesses != NUM_GUESSES) {
+  if (val != 0 && guesses < NUM_GUESSES) {
     document.getElementById("curguess").innerHTML = "Current Prime: " + todays_primes[guesses];
     return;
   }
@@ -101,7 +101,7 @@ function displayStats(result_string, includeShare) {
   streak_string += "<div id=\"played\" style=\"flex: 1;\">Played<div style=\"font-size: 2em\">" + games_played + "</div></div>";
   streak_string += "<div id=\"winpercent\" style=\"flex: 1\">Win Percentage<div style=\"font-size: 2em\">" + winpercent + "</div></div>";
   streak_string += "<div id=\"curstreak\" style=\"flex: 1\">Current Streak<div style=\"font-size: 2em\">" + streaks[ "current-streak" ] + "</div></div>";
-  streak_string += "<div id=\"maxstreak\" style=\"flex: 1\">Max Streak<div style=\"font-size: 2em\">" + streaks[ "current-streak" ] + "</div></div>";
+  streak_string += "<div id=\"maxstreak\" style=\"flex: 1\">Max Streak<div style=\"font-size: 2em\">" + streaks[ "max-streak" ] + "</div></div>";
   document.getElementById("streak").innerHTML = streak_string;
 
 	loadStats();
