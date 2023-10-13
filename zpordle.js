@@ -288,10 +288,7 @@ var month = nd.getMonth() + 1; // months are zero-based
 var day = nd.getDate();
 
 // format the date string with the user's local date
-var formattedDate = year + '/' + month + '/' + day;
-
-console.log("User's local date: " + formattedDate);
-
+var today = year + '/' + month + '/' + day;
 
 // using https://github.com/davidbau/seedrandom
 Math.seedrandom(today);
