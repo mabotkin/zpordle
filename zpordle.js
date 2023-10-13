@@ -274,12 +274,13 @@ var EMOJI_TABLE = {
 }
 var SHARE_BUTTON = "<button id=\"share\" type=\"button\" onclick=\"share()\">Share</button>";
 
-// always use pacific time
+// get current date and time in user's local time zone
 var d = new Date();
-var pstDate = d.toLocaleString("en-us", {
-	timeZone: "America/Los_Angeles"
-});
-var nd = new Date(pstDate);
+var userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+var userLocalDate = d.toLocaleString("en-us", { timeZone: userTimeZone });
+
+var nd = new Date(userLocalDate);
+
 var today = nd.getFullYear() + '/' + (nd.getMonth() + 1) + '/' + nd.getDate();
 
 // using https://github.com/davidbau/seedrandom
